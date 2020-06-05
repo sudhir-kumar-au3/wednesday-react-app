@@ -1,27 +1,27 @@
 import { fromJS } from 'immutable';
 import {
   selectHomeContainer,
-  selectRepoName,
-  selectReposData,
-  selectReposError
+  selectItuneName,
+  selectItuneData,
+  selectItuneError
 } from '../selectors';
 
 describe('HomeContainer selector tests', () => {
   let mockedState;
-  let repoName;
-  let reposData;
-  let reposError;
+  let ituneName;
+  let ituneData;
+  let ituneError;
 
   beforeEach(() => {
-    repoName = 'mac';
-    reposData = { totalCount: 1, items: [{ repoName }] };
-    reposError = 'There was some error while fetching the repository details';
+    ituneName = 'kesha';
+    ituneData = { totalCount: 1, items: [{ ituneName }] };
+    ituneError = 'There was some error while fetching the details';
 
     mockedState = {
       homeContainer: fromJS({
-        repoName,
-        reposData,
-        reposError
+        ituneName,
+        ituneData,
+        ituneError
       })
     };
   });
@@ -31,18 +31,18 @@ describe('HomeContainer selector tests', () => {
       mockedState.homeContainer.toJS()
     );
   });
-  it('should select the repoName', () => {
-    const repoSelector = selectRepoName();
-    expect(repoSelector(mockedState)).toEqual(repoName);
+  it('should select the ituneName', () => {
+    const ituneSelector = selectItuneName();
+    expect(ituneSelector(mockedState)).toEqual(ituneName);
   });
 
-  it('should select reposData', () => {
-    const reposDataSelector = selectReposData();
-    expect(reposDataSelector(mockedState)).toEqual(reposData);
+  it('should select ituneData', () => {
+    const ituneDataSelector = selectItuneData();
+    expect(ituneDataSelector(mockedState)).toEqual(ituneData);
   });
 
-  it('should select the reposError', () => {
-    const reposErrorSelector = selectReposError();
-    expect(reposErrorSelector(mockedState)).toEqual(reposError);
+  it('should select the ituneError', () => {
+    const ituneErrorSelector = selectItuneError();
+    expect(ituneErrorSelector(mockedState)).toEqual(ituneError);
   });
 });

@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 const ScreenSizes = {
-  DESKTOP: 992,
+  DESKTOP: 1000,
   TABLET: 768,
   PHONE: 320
 };

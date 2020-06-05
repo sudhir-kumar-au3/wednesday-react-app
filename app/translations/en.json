@@ -1,10 +1,10 @@
 {
-  "repo_list": "Repository List",
-  "repo_search": "Repository Search",
-  "respo_search_default": "Search for a repository by entering it's name in the search box",
-  "get_repo_details": "Get details of repositories",
-  "search_query": "Search query: {repoName}",
-  "matching_repos": "Total number of matching repos: {totalCount}",
+  "itune_list": "Search Results",
+  "itune_search": "iTune Search",
+  "itune_search_default": "Search for an Artist by entering the name in the search box",
+  "get_itune_details": "Get Songs of The Artist",
+  "search_query": "Search query: {ituneName}",
+  "matching_itune": "Total number of matching results: {totalCount}",
   "something_went_wrong": "Sorry. Something went wrong! Please try again in sometime.",
   "stories": "Go to Storybook",
   "wednesday_solutions": "Wednesday Solutions"

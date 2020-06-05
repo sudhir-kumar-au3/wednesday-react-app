@@ -1,12 +1,12 @@
 import { homeContainerTypes, homeContainerCreators } from '../reducer';
 
 describe('HomeContainer action tests', () => {
-  it('has a type of REQUEST_GET_GITHUB_REPOS', () => {
+  it('has a type of REQUEST_GET_ITUNE', () => {
     const expected = {
-      type: homeContainerTypes.REQUEST_GET_GITHUB_REPOS,
-      repoName: 'repoName'
+      type: homeContainerTypes.REQUEST_GET_ITUNE,
+      ituneName: 'ituneName'
     };
-    expect(homeContainerCreators.requestGetGithubRepos('repoName')).toEqual(
+    expect(homeContainerCreators.requestGetItune('ituneName')).toEqual(
       expected
     );
   });

@@ -3,7 +3,7 @@ import { colors } from '@app/themes';
 
 const configureFlex = (
   direction = 'row',
-  justifyContent = 'center',
+  justifyContent = 'start',
   alignItems = 'center',
   alignContent = 'center',
   flexBasis = 0,
@@ -120,7 +120,7 @@ const zIndex = (z = 1) => {
     z-index: ${z};
   `;
 };
-const textEllipsis = (width = '200px') => css`
+const textEllipsis = (width = '300px') => css`
   white-space: nowrap;
   overflow: hidden;
   width: ${width};

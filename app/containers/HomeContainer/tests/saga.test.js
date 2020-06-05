@@ -4,54 +4,54 @@
 
 /* eslint-disable redux-saga/yield-effects */
 import { takeLatest, call, put } from 'redux-saga/effects';
-import { getRepos } from '@services/repoApi';
+import { getItune } from '@app/services/ituneApi';
 import { apiResponseGenerator } from '@utils/testUtils';
-import homeContainerSaga, { getGithubRepos } from '../saga';
+import homeContainerSaga, { getItuneName } from '../saga';
 import { homeContainerTypes } from '../reducer';
 
 describe('HomeContainer saga tests', () => {
   const generator = homeContainerSaga();
-  const repoName = 'mac';
-  let getGithubReposGenerator = getGithubRepos({ repoName });
+  const ituneName = 'kesha';
+  let getItuneNameGenerator = getItuneName({ ituneName });
 
-  it('should start task to watch for REQUEST_GET_GITHUB_REPOS action', () => {
+  it('should start task to watch for REQUEST_GET_ITUNE action', () => {
     expect(generator.next().value).toEqual(
-      takeLatest(homeContainerTypes.REQUEST_GET_GITHUB_REPOS, getGithubRepos)
+      takeLatest(homeContainerTypes.REQUEST_GET_ITUNE, getItuneName)
     );
   });
 
-  it('should ensure that the action FAILURE_GET_GITHUB_REPOS is dispatched when the api call fails', () => {
-    const res = getGithubReposGenerator.next().value;
-    expect(res).toEqual(call(getRepos, repoName));
+  it('should ensure that the action FAILURE_GET_ITUNE is dispatched when the api call fails', () => {
+    const res = getItuneNameGenerator.next().value;
+    expect(res).toEqual(call(getItune, ituneName));
     const errorResponse = {
       errorMessage: 'There was an error while fetching repo informations.'
     };
     expect(
-      getGithubReposGenerator.next(apiResponseGenerator(false, errorResponse))
+      getItuneNameGenerator.next(apiResponseGenerator(false, errorResponse))
         .value
     ).toEqual(
       put({
-        type: homeContainerTypes.FAILURE_GET_GITHUB_REPOS,
+        type: homeContainerTypes.FAILURE_GET_ITUNE,
         error: errorResponse
       })
     );
   });
 
-  it('should ensure that the action SUCCESS_GET_GITHUB_REPOS is dispatched when the api call succeeds', () => {
-    getGithubReposGenerator = getGithubRepos({ repoName });
-    const res = getGithubReposGenerator.next().value;
-    expect(res).toEqual(call(getRepos, repoName));
-    const reposResponse = {
+  it('should ensure that the action SUCCESS_GET_ITUNE is dispatched when the api call succeeds', () => {
+    getItuneNameGenerator = getItuneName({ ituneName });
+    const res = getItuneNameGenerator.next().value;
+    expect(res).toEqual(call(getItune, ituneName));
+    const ituneResponse = {
       totalCount: 1,
-      items: [{ repositoryName: repoName }]
+      items: [{ ituneArtistName: ituneName }]
     };
     expect(
-      getGithubReposGenerator.next(apiResponseGenerator(true, reposResponse))
+      getItuneNameGenerator.next(apiResponseGenerator(true, ituneResponse))
         .value
     ).toEqual(
       put({
-        type: homeContainerTypes.SUCCESS_GET_GITHUB_REPOS,
-        data: reposResponse
+        type: homeContainerTypes.SUCCESS_GET_ITUNE,
+        data: ituneResponse
       })
     );
   });

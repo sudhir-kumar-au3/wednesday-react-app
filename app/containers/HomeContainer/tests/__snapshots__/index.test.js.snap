@@ -4,7 +4,7 @@ exports[`<HomeContainer /> tests should render and match the snapshot 1`] = `
 <body>
   <div>
     <div
-      class="HomeContainer__Container-l0s8pp-1 eLjtlX"
+      class="HomeContainer__Container-l0s8pp-1 eseWSH"
     >
       <div
         class="HomeContainer__RightContent-l0s8pp-2 ktRuf"
@@ -22,8 +22,8 @@ exports[`<HomeContainer /> tests should render and match the snapshot 1`] = `
         </div>
       </div>
       <div
-        class="ant-card HomeContainer__CustomCard-l0s8pp-0 etQjAO ant-card-bordered"
-        maxwidth="500"
+        class="ant-card HomeContainer__CustomCard-l0s8pp-0 jeDkqj ant-card-bordered"
+        maxwidth="1440"
       >
         <div
           class="ant-card-head"
@@ -34,7 +34,7 @@ exports[`<HomeContainer /> tests should render and match the snapshot 1`] = `
             <div
               class="ant-card-head-title"
             >
-              Repository Search
+              iTune Search
             </div>
           </div>
         </div>
@@ -45,7 +45,7 @@ exports[`<HomeContainer /> tests should render and match the snapshot 1`] = `
             class="T__StyledText-gjlic1-0 eEFXad"
             data-testid="t"
           >
-            Get details of repositories
+            Get Songs of The Artist
           </p>
           <span
             class="ant-input-search ant-input-affix-wrapper"
@@ -97,7 +97,7 @@ exports[`<HomeContainer /> tests should render and match the snapshot 1`] = `
             <div
               class="ant-card-head-title"
             >
-              Repository List
+              Search Results
             </div>
           </div>
         </div>
@@ -108,7 +108,7 @@ exports[`<HomeContainer /> tests should render and match the snapshot 1`] = `
             class="T__StyledText-gjlic1-0 cbAvsY"
             data-testid="t"
           >
-            Search for a repository by entering it's name in the search box
+            Search for an Artist by entering the name in the search box
           </p>
         </div>
       </div>

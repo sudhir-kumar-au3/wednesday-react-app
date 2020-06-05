@@ -1,19 +1,22 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
-import { getRepos } from '@services/repoApi';
+import { getItune } from '@app/services/ituneApi';
 import { homeContainerTypes, homeContainerCreators } from './reducer';
 
-const { REQUEST_GET_GITHUB_REPOS } = homeContainerTypes;
-const { successGetGithubRepos, failureGetGithubRepos } = homeContainerCreators;
-export function* getGithubRepos(action) {
-  const response = yield call(getRepos, action.repoName);
+const { REQUEST_GET_ITUNE } = homeContainerTypes;
+const { successGetItune, failureGetItune } = homeContainerCreators;
+export function* getItuneName(action) {
+  const response = yield call(getItune, action.ituneName);
   const { data, ok } = response;
+  // eslint-disable-next-line no-console
+  console.log(data);
+
   if (ok) {
-    yield put(successGetGithubRepos(data));
+    yield put(successGetItune(data));
   } else {
-    yield put(failureGetGithubRepos(data));
+    yield put(failureGetItune(data));
   }
 }
 // Individual exports for testing
 export default function* homeContainerSaga() {
-  yield takeLatest(REQUEST_GET_GITHUB_REPOS, getGithubRepos);
+  yield takeLatest(REQUEST_GET_ITUNE, getItuneName);
 }

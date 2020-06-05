@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import get from 'lodash/get';
 import debounce from 'lodash/debounce';
 import isEmpty from 'lodash/isEmpty';
-import { Card, Skeleton, Input } from 'antd';
+import { Card, Skeleton, Input, Row, Col } from 'antd';
 import styled from 'styled-components';
 import { injectIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
@@ -15,15 +15,15 @@ import Clickable from '@components/Clickable';
 import { useInjectSaga } from 'utils/injectSaga';
 import {
   selectHomeContainer,
-  selectReposData,
-  selectReposError,
-  selectRepoName
+  selectItuneData,
+  selectItuneError,
+  selectItuneName
 } from './selectors';
 import { homeContainerCreators } from './reducer';
 import saga from './saga';
 
 const { Search } = Input;
-
+const { Meta } = Card;
 const CustomCard = styled(Card)`
   && {
     margin: 20px 0;
@@ -36,7 +36,6 @@ const Container = styled.div`
   && {
     display: flex;
     flex-direction: column;
-    max-width: ${props => props.maxwidth}px;
     width: 100%;
     margin: 0 auto;
     padding: ${props => props.padding}px;
@@ -47,12 +46,12 @@ const RightContent = styled.div`
   align-self: flex-end;
 `;
 export function HomeContainer({
-  dispatchGithubRepos,
-  dispatchClearGithubRepos,
+  dispatchItune,
+  dispatchClearItune,
   intl,
-  reposData = {},
-  reposError = null,
-  repoName,
+  ituneData = {},
+  ituneError = null,
+  ituneName,
   maxwidth,
   padding
 }) {
@@ -60,68 +59,86 @@ export function HomeContainer({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const loaded = get(reposData, 'items', null) || reposError;
+    const loaded = get(ituneData, 'items', null) || ituneError;
     if (loading && loaded) {
       setLoading(false);
     }
-  }, [reposData]);
+  }, [ituneData]);
 
   const history = useHistory();
 
-  const handleOnChange = rName => {
-    if (!isEmpty(rName)) {
-      dispatchGithubRepos(rName);
+  const handleOnChange = iName => {
+    if (!isEmpty(iName)) {
+      dispatchItune(iName);
       setLoading(true);
     } else {
-      dispatchClearGithubRepos();
+      dispatchClearItune();
     }
   };
   const debouncedHandleOnChange = debounce(handleOnChange, 200);
 
   const renderRepoList = () => {
-    const items = get(reposData, 'items', []);
-    const totalCount = get(reposData, 'totalCount', 0);
+    const items = get(ituneData, 'results', []);
+
+    const totalCount = get(ituneData, 'resultCount', 0);
     return (
       (items.length !== 0 || loading) && (
-        <CustomCard>
-          <Skeleton loading={loading} active>
-            {repoName && (
-              <div>
-                <T id="search_query" values={{ repoName }} />
-              </div>
-            )}
-            {totalCount !== 0 && (
-              <div>
-                <T id="matching_repos" values={{ totalCount }} />
-              </div>
-            )}
+        <Skeleton loading={loading} active>
+          {ituneName && (
+            <div>
+              <T id="search_query" values={{ ituneName }} />
+            </div>
+          )}
+          {totalCount !== 0 && (
+            <div>
+              <T id="matching_itune" values={{ totalCount }} />
+            </div>
+          )}
+          <Row>
             {items.map((item, index) => (
-              <CustomCard key={index}>
-                <div>Repository Name: {item.name}</div>
-                <div>Repository Full Name: {item.fullName}</div>
-                <div>Repository stars: {item.stargazersCount}</div>
-              </CustomCard>
+              <Col key={index} span={6}>
+                <Card
+                  hoverable
+                  style={{ width: 220 }}
+                  cover={
+                    <img alt={item.trackName} src={item.artworkUrl100}></img>
+                  }
+                >
+                  <audio
+                    preload="none"
+                    controls
+                    style={{ width: 150, padding: 5 }}
+                  >
+                    <source src={item.previewUrl} type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                  </audio>
+                  <Meta
+                    title={item.trackName}
+                    description={item.artistName}
+                  ></Meta>
+                </Card>
+              </Col>
             ))}
-          </Skeleton>
-        </CustomCard>
+          </Row>
+        </Skeleton>
       )
     );
   };
   const renderErrorState = () => {
-    let repoError;
-    if (reposError) {
-      repoError = reposError;
-    } else if (!get(reposData, 'totalCount', 0)) {
-      repoError = 'respo_search_default';
+    let itunesError;
+    if (ituneError) {
+      itunesError = ituneError;
+    } else if (!get(ituneData, 'totalCount', 0)) {
+      itunesError = 'itune_search_default';
     }
     return (
       !loading &&
-      repoError && (
+      itunesError && (
         <CustomCard
-          color={reposError ? 'red' : 'grey'}
-          title={intl.formatMessage({ id: 'repo_list' })}
+          color={ituneError ? 'red' : 'grey'}
+          title={intl.formatMessage({ id: 'itune_list' })}
         >
-          <T id={repoError} />
+          <T id={itunesError} />
         </CustomCard>
       )
     );
@@ -136,13 +153,13 @@ export function HomeContainer({
         <Clickable textId="stories" onClick={refreshPage} />
       </RightContent>
       <CustomCard
-        title={intl.formatMessage({ id: 'repo_search' })}
+        title={intl.formatMessage({ id: 'itune_search' })}
         maxwidth={maxwidth}
       >
-        <T marginBottom={10} id="get_repo_details" />
+        <T marginBottom={10} id="get_itune_details" />
         <Search
           data-testid="search-bar"
-          defaultValue={repoName}
+          defaultValue={ituneName}
           type="text"
           onChange={evt => debouncedHandleOnChange(evt.target.value)}
           onSearch={searchText => debouncedHandleOnChange(searchText)}
@@ -155,38 +172,38 @@ export function HomeContainer({
 }
 
 HomeContainer.propTypes = {
-  dispatchGithubRepos: PropTypes.func,
-  dispatchClearGithubRepos: PropTypes.func,
+  dispatchItune: PropTypes.func,
+  dispatchClearItune: PropTypes.func,
   intl: PropTypes.object,
-  reposData: PropTypes.shape({
+  ituneData: PropTypes.shape({
     totalCount: PropTypes.number,
     incompleteResults: PropTypes.bool,
     items: PropTypes.array
   }),
-  reposError: PropTypes.object,
-  repoName: PropTypes.string,
+  ituneError: PropTypes.object,
+  ituneName: PropTypes.string,
   history: PropTypes.object,
   maxwidth: PropTypes.number,
   padding: PropTypes.number
 };
 
 HomeContainer.defaultProps = {
-  maxwidth: 500,
+  maxwidth: 1440,
   padding: 20
 };
 
 const mapStateToProps = createStructuredSelector({
   homeContainer: selectHomeContainer(),
-  reposData: selectReposData(),
-  reposError: selectReposError(),
-  repoName: selectRepoName()
+  ituneData: selectItuneData(),
+  ituneError: selectItuneError(),
+  ituneName: selectItuneName()
 });
 
 function mapDispatchToProps(dispatch) {
-  const { requestGetGithubRepos, clearGithubRepos } = homeContainerCreators;
+  const { requestGetItune, clearItune } = homeContainerCreators;
   return {
-    dispatchGithubRepos: repoName => dispatch(requestGetGithubRepos(repoName)),
-    dispatchClearGithubRepos: () => dispatch(clearGithubRepos())
+    dispatchItune: ituneName => dispatch(requestGetItune(ituneName)),
+    dispatchClearItune: () => dispatch(clearItune())
   };
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * This script is for internal `react-boilerplate`'s usage.
  * It will run all generators in order to be able to lint them and detect
@@ -67,6 +68,7 @@ function handleResult({ changes, failures }) {
  */
 function feedbackToUser(info) {
   return result => {
+    // eslint-disable-next-line no-console
     console.info(chalk.blue(info));
     return result;
   };
@@ -147,7 +149,7 @@ function removeDir(relativePath) {
   return new Promise((resolve, reject) => {
     try {
       rimraf(path.join(__dirname, '/../../app/', relativePath), err => {
-        if (err) throw err;
+        if (err) {throw err;}
       });
       resolve(relativePath);
     } catch (err) {
@@ -165,7 +167,7 @@ function removeFile(filePath) {
   return new Promise((resolve, reject) => {
     try {
       fs.unlink(filePath, err => {
-        if (err) throw err;
+        if (err) {throw err;}
       });
       resolve(filePath);
     } catch (err) {
@@ -188,7 +190,7 @@ async function restoreModifiedFile(
     const targetFile = filePath.replace(`.${backupFileExtension}`, '');
     try {
       fs.copyFile(filePath, targetFile, err => {
-        if (err) throw err;
+        if (err) {throw err;}
       });
       resolve(targetFile);
     } catch (err) {

@@ -12,10 +12,10 @@ export const {
   Types: homeContainerTypes,
   Creators: homeContainerCreators
 } = createActions({
-  requestGetGithubRepos: ['repoName'],
-  successGetGithubRepos: ['data'],
-  failureGetGithubRepos: ['error'],
-  clearGithubRepos: []
+  requestGetItune: ['ituneName'],
+  successGetItune: ['data'],
+  failureGetItune: ['error'],
+  clearItune: []
 });
 export const initialState = fromJS({});
 
@@ -23,15 +23,15 @@ export const initialState = fromJS({});
 export const homeContainerReducer = (state = initialState, action) =>
   produce(state, (/* draft */) => {
     switch (action.type) {
-      case homeContainerTypes.REQUEST_GET_GITHUB_REPOS:
-        return initialState.set('repoName', action.repoName);
-      case homeContainerTypes.CLEAR_GITHUB_REPOS:
-        return initialState.set('repoName', null).set('reposData', null);
-      case homeContainerTypes.SUCCESS_GET_GITHUB_REPOS:
-        return state.set('reposData', action.data);
-      case homeContainerTypes.FAILURE_GET_GITHUB_REPOS:
+      case homeContainerTypes.REQUEST_GET_ITUNE:
+        return initialState.set('ituneName', action.ituneName);
+      case homeContainerTypes.CLEAR_ITUNE:
+        return initialState.set('ituneName', null).set('ituneData', null);
+      case homeContainerTypes.SUCCESS_GET_ITUNE:
+        return state.set('ituneData', action.data);
+      case homeContainerTypes.FAILURE_GET_ITUNE:
         return state.set(
-          'reposError',
+          'ituneError',
           _.get(action.error, 'message', 'something_went_wrong')
         );
     }
