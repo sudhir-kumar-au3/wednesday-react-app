@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -60,9 +61,8 @@ export function HomeContainer({
 
   useEffect(() => {
     const loaded = get(ituneData, 'items', null) || ituneError;
-    if (loading && loaded) {
-      setLoading(false);
-    }
+    console.log(loaded);
+    setLoading(false);
   }, [ituneData]);
 
   const history = useHistory();
